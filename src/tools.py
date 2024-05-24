@@ -3,6 +3,9 @@ import numpy as np
 import imageio
 import os
 
+import torch
+import torch.distributed as dist
+
 def export_to_video(video_frames, output_video_path, fps = 12):
     # Ensure all frames are NumPy arrays and determine video dimensions from the first frame
     assert all(isinstance(frame, np.ndarray) for frame in video_frames), "All video frames must be NumPy arrays."
@@ -37,3 +40,37 @@ def save_generation(video_frames, configs, base_path, file_name=None):
 
     return file_name
 
+
+class GlobalState:
+    def __init__(self, state={}) -> None:
+        self.init_state(state)
+    
+    def init_state(self, state={}):
+        self.state = state
+
+    def set(self, key, value):
+        self.state[key] = value
+
+    def get(self, key, default=None):
+        return self.state.get(key, default)
+    
+
+class DistController(object):
+    def __init__(self, rank, world_size, config) -> None:
+        super().__init__()
+        self.rank = rank
+        self.world_size = world_size
+        self.config = config
+        self.is_master = rank == 0
+        self.init_dist()
+        self.init_group()
+        self.device = torch.device(f"cuda:{config['devices'][dist.get_rank()]}")
+
+    def init_dist(self):
+        print(f"Rank {self.rank} is running.")
+        os.environ['MASTER_ADDR'] = '127.0.0.1'
+        os.environ['MASTER_PORT'] = str(self.config.get("master_port") or "29500")
+        dist.init_process_group("nccl", rank=self.rank, world_size=self.world_size)
+
+    def init_group(self):
+        self.adj_groups = [dist.new_group([i, i+1]) for i in range(self.world_size-1)]
