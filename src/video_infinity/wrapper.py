@@ -115,7 +115,7 @@ class DistWrapper(object):
                 "top_k_chunk_size": 24,
                 "attn_scale": 1.,
                 "token_num_scale": True,
-
+                "dynamic_scale": True,
             },
             "conv_3d": {
                 "padding": 1,

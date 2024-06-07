@@ -2,7 +2,7 @@ import torch
 import torch.distributed as dist
 import math
 
-def my_attention(query, key, value, attn_mask=None, dropout_p=0.0, is_causal=False, scale=None) -> torch.Tensor:
+def my_attention(query, key, value, attn_mask=None, dropout_p=0.0, is_causal=False, scale=None, token_num_scale=False) -> torch.Tensor:
     L, S = query.size(-2), key.size(-2)
     base_scale_factor = 1 / math.sqrt(query.size(-1)) * (scale if scale is not None else 1.)
     attn_bias = torch.zeros(L, S, dtype=query.dtype).to(query.dtype).to(query.device)
@@ -19,9 +19,8 @@ def my_attention(query, key, value, attn_mask=None, dropout_p=0.0, is_causal=Fal
             attn_bias += attn_mask.to(query.dtype).to(query.device)
     
     no_mask_count = torch.where(attn_bias < -100, 0, 1).sum(1)
-    biased_scale_factor = torch.log(no_mask_count) / torch.log(torch.tensor(16)) 
-    scale_factor = (base_scale_factor * biased_scale_factor).unsqueeze(-1)
-    scale_factor = base_scale_factor
+    biased_scale_factor = torch.log(no_mask_count) / torch.log(torch.tensor(16)) if token_num_scale else 1.
+    scale_factor = (base_scale_factor * biased_scale_factor).unsqueeze(-1) if token_num_scale else base_scale_factor
     attn_weight = query @ key.transpose(-2, -1) 
     attn_weight *= scale_factor
     attn_weight += attn_bias
@@ -187,12 +186,11 @@ class AttentionPlugin(ModulePlugin):
         self.top_k = 16
         self.top_k_chunk_size = 24
         self.attn_scale = 1.
-        self.token_num_scale = True
+        self.token_num_scale = False
         self.rank = dist.get_rank()
         self.adj_groups = self.global_state.get('dist_controller').adj_groups
         self.world_size = self.global_state.get('dist_controller').world_size
         self.dynamic_scale = False
-        self.dynamic_attn_tokens = False
 
     def pad_context(self, h, padding=None):
         padding = self.padding if padding is None else padding
@@ -241,12 +239,7 @@ class AttentionPlugin(ModulePlugin):
     def get_topk(self, q, k, v, top_k=None):
         # h = [N, F, C]
         top_k = self.top_k if top_k is None else top_k
-        if self.dynamic_attn_tokens:
-            end_t = 0
-            top_k = int(top_k * (self.t - end_t)/ (1000-end_t) )
-            share_num = max(int(top_k * (self.t - end_t)/ (1000-end_t) // self.world_size + 1), 0)
-        else:
-            share_num = int(max(top_k // self.world_size, 0))
+        share_num = int(max(top_k // self.world_size, 0))
 
         stride = max(q.shape[1] // share_num, 1) if share_num else 1000000
 
@@ -304,20 +297,18 @@ class AttentionPlugin(ModulePlugin):
                 attn_mask[i, 0: max(0, i)] = float('-inf')
                 attn_mask[i, min(temporal_n+2*padding, i+1+2*padding): temporal_n+2*padding] = float('-inf')
                 
-            if self.dynamic_scale:
-                if self.t < 850:
-                    # attn_mask[:, :temporal_n+2*padding] = float('-inf')
-                    # attn_mask[:, temporal_n+2*padding:] = float('-inf')
-                    attn_mask[:, :temporal_n+2*padding] += 10
-                if self.t >= 850:
-                    # attn_mask[:, :temporal_n+2*padding] = float('-inf')
-                    # attn_mask[:, temporal_n+2*padding:] = float('-inf')
-                    attn_mask[:, temporal_n+2*padding:] += 10
-            
+            if self.dynamic_scale and self.local_phase is not None and self.global_phase is not None:
+                if self.t < self.local_phase['t']:
+                    attn_mask[:, temporal_n+2*padding:] += self.local_phase['global_biase']
+                    attn_mask[:, :temporal_n+2*padding] += self.local_phase['local_biase']
+                if self.t >= self.global_phase['t']:
+                    attn_mask[:, temporal_n+2*padding:] += self.global_phase['global_biase']
+                    attn_mask[:, :temporal_n+2*padding] += self.global_phase['local_biase']
             out = my_attention(
                 q, padded_k, padded_v,
                 attn_mask=attn_mask, dropout_p=0.0, is_causal=False,
-                scale=self.attn_scale if not self.token_num_scale else None,
+                scale=self.attn_scale,
+                token_num_scale=self.token_num_scale
             )
 
 
