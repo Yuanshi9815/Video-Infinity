@@ -1,8 +1,8 @@
-
 import torch
 
 from diffusers.models import AutoencoderKL, UNet3DConditionModel
 from transformers import CLIPTextModel, CLIPTokenizer
+from diffusers.schedulers import DPMSolverMultistepScheduler
 from diffusers.schedulers import KarrasDiffusionSchedulers
 from diffusers.pipelines.text_to_video_synthesis.pipeline_text_to_video_synth import TextToVideoSDPipeline
 from diffusers.configuration_utils import register_to_config
@@ -49,7 +49,18 @@ class VideoCrafterPipeline(TextToVideoSDPipeline):
         # kwargs.pop("fps", None)
         return super().__call__(*args, **kwargs)
         
-
+    @classmethod
+    def from_pretrained(
+        cls,
+        pretrained_model_name_or_path: str,
+        **kwargs,
+    ):
+        pipe = TextToVideoSDPipeline.from_pretrained("cerspense/zeroscope_v2_576w", **kwargs)
+        pipe.__class__ = cls
+        pipe.fps_cond = True
+        pipe.unet = UNetVideoCrafter.from_pretrained(pretrained_model_name_or_path, **kwargs)
+        pipe.scheduler = DPMSolverMultistepScheduler.from_config(pipe.scheduler.config, use_karras=True, algorithm_type="sde-dpmsolver++")
+        return pipe
 
 class UNetVideoCrafter(UNet3DConditionModel):
     @register_to_config
