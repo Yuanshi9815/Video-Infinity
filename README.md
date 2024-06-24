@@ -1,6 +1,7 @@
 # Video-Infinity
-<img src="https://img.shields.io/badge/ariXv-2311.07312-A42C25.svg" alt="arXiv">
-<img src="https://img.shields.io/badge/ProjectPage-Video Infinity-376ED2#376ED2.svg" alt="arXiv">
+<img src='./assets/VideoGen-Main.png' width='70%' />
+
+<img src="https://img.shields.io/badge/ariXv-2311.07312-A42C25.svg" alt="arXiv"> <img src="https://img.shields.io/badge/ProjectPage-Video Infinity-376ED2#376ED2.svg" alt="arXiv">
 
 
 > **Video-Infinity: Distributed Long Video Generation**
@@ -40,8 +41,17 @@ huggingface-cli download adamdad/videocrafterv2_diffusers
 
 ## Usage
 ### Quick Start
+- **Basic Usage**
 ```bash
 python inference.py --config examples/config.json
+```
+- **Multi-Prompts**
+```bash
+python inference.py --config examples/multi_prompts.json
+```
+- **Single GPU**
+```bash
+python inference.py --config examples/single_gpu.json
 ```
 
 ### Config
