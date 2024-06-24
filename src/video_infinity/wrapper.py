@@ -97,6 +97,7 @@ class DistWrapper(object):
     def inference(
         self,
         prompts="A beagle wearning diving goggles  swimming in the ocean while the camera is moving, coral reefs in the background",
+        config={},
         pipe_configs={
             "steps": 50,
             "guidance_scale": 12,
@@ -158,6 +159,6 @@ class DistWrapper(object):
                     "plugin_configs": plugin_configs,
                     "additional_info": additional_info
                 },
-                pipe_configs["base_path"],
+                config["base_path"],
                 pipe_configs["file_name"]
             )
