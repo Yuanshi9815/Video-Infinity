@@ -1,5 +1,5 @@
 # Video-Infinity
-<img src='./assets/VideoGen-Main.png' width='70%' />
+<img src='./assets/VideoGen-Main.png' width='100%' />
 
 <img src="https://img.shields.io/badge/ariXv-2311.07312-A42C25.svg" alt="arXiv"> <img src="https://img.shields.io/badge/ProjectPage-Video Infinity-376ED2#376ED2.svg" alt="arXiv">
 
