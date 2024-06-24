@@ -1,7 +1,7 @@
 # Video-Infinity
-<img src='./assets/VideoGen-Main.png' width='100%' />
-
-<img src="https://img.shields.io/badge/ariXv-2311.07312-A42C25.svg" alt="arXiv"> <img src="https://img.shields.io/badge/ProjectPage-Video Infinity-376ED2#376ED2.svg" alt="arXiv">
+<div align="center">
+<img src='./assets/VideoGen-Main.png' width='70%' />
+</div>
 
 
 > **Video-Infinity: Distributed Long Video Generation**
@@ -14,6 +14,7 @@
 > <br>
 > [Learning and Vision Lab](TODO), National University of Singapore
 > <br>
+> <img src="https://img.shields.io/badge/ariXv-2311.07312-A42C25.svg" alt="arXiv"> <img src="https://img.shields.io/badge/ProjectPage-Video Infinity-376ED2#376ED2.svg" alt="arXiv">
 
 ## TL;DR (Too Long; Didn't Read)
 Video-Infinity generates long videos quickly using multiple GPUs without extra training. Feel free to visit our 
