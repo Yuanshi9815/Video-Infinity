@@ -1,0 +1,44 @@
+{
+    "dtype": "torch.float16",
+    "devices": [0],
+    "seed": 123,
+    "master_port": 29516,
+    "base_path": "./exp",
+    "pipe_configs":{
+        "prompts": [
+            "A beagle wearing diving goggles swimming in the ocean while the camera is moving, coral reefs in the background."
+        ],
+        "steps": 30,
+        "guidance_scale": 12,
+        "fps": 24,
+        "num_frames": 24,
+        "height": 320,
+        "width": 512,  
+        "export_fps": 8,
+        "file_name": null
+    },
+    "plugin_configs":{
+        "attn":{
+            "padding": 8,
+            "top_k": 16,
+            "top_k_chunk_size": 24,
+            "attn_scale": 1.0,
+            "token_num_scale": false,
+            "dynamic_scale": true,
+            "local_phase": {
+                "t": 800, 
+                "local_biase": 10,
+                "global_biase": 0
+            },
+            "global_phase": {
+                "t": 800,
+                "local_biase": 0,
+                "global_biase": 10
+            }
+        },
+        "conv_3d": {
+            "padding": 1
+        }, 
+        "conv_layer": {}
+    }
+}
