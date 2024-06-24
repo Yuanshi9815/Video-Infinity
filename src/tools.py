@@ -65,6 +65,7 @@ class DistController(object):
         self.init_dist()
         self.init_group()
         self.device = torch.device(f"cuda:{config['devices'][dist.get_rank()]}")
+        torch.cuda.set_device(self.device)
 
     def init_dist(self):
         print(f"Rank {self.rank} is running.")
