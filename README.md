@@ -16,9 +16,9 @@
 > [Xingyi Yang](https://adamdad.github.io/), 
 > [Songhua Liu](http://121.37.94.87/), 
 > and 
-> [Xinchao Wang](TODO)
+> [Xinchao Wang]([](https://sites.google.com/site/sitexinchaowang/))
 > <br>
-> [Learning and Vision Lab](TODO), National University of Singapore
+> [Learning and Vision Lab](http://lv-nus.org/), National University of Singapore
 > <br>
 
 
@@ -102,4 +102,4 @@ python inference.py --config examples/single_gpu.json
 ```
 
 ## Acknowledgements
-Our project is based on the [VideoCrafter2](TODO) model. We would like to thank the authors for their excellent work.
+Our project is based on the [VideoCrafter2](https://ailab-cvc.github.io/videocrafter2) model. We would like to thank the authors for their excellent work.
