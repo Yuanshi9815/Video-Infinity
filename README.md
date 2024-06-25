@@ -5,15 +5,15 @@
 
 <img src='./assets/VideoGen-Main.png' width='80%' />
 
-<img src="https://img.shields.io/badge/ariXv-2311.07312-A42C25.svg" alt="arXiv"> <img src="https://img.shields.io/badge/ProjectPage-Video Infinity-376ED2#376ED2.svg" alt="arXiv">
+<img src="https://img.shields.io/badge/ariXv-2406.16260-A42C25.svg" alt="arXiv"> <img src="https://img.shields.io/badge/ProjectPage-Video Infinity-376ED2#376ED2.svg" alt="arXiv">
 </div>
 
 
 > **Video-Infinity: Distributed Long Video Generation**
 > <br>
 > Zhenxiong Tan, 
-> [Xingyi Yang](TODO), 
-> [Songhua Liu](TODO), 
+> [Xingyi Yang](https://adamdad.github.io/), 
+> [Songhua Liu](http://121.37.94.87/), 
 > and 
 > [Xinchao Wang](TODO)
 > <br>
@@ -29,7 +29,7 @@ Video-Infinity generates long videos quickly using multiple GPUs without extra t
 
 ## Features
 * **Distributed 🌐**: Utilizes multiple GPUs to generate long-form videos.
-* **High-Speed  🚀**: Produces 2,300 frames (3.5 minutes) in just 5 minutes.
+* **High-Speed  🚀**: Produces 2,300 frames in just 5 minutes.
 * **Training-Free 🎓**: Generates long videos without requiring additional training for existing models.
 
 ## Setup
@@ -79,8 +79,8 @@ python inference.py --config examples/single_gpu.json
 | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `*.padding`            | The number of local context frames.                                                                                                                                          |
 | `attn.topk`            | The number ofglobal context frames for `Attention` model.                                                                                                                    |
-| `attn.local_phase`     | When the denoise timestep is less than `t`, it rebases the attention. This adds a `local_bias` to the local context frames and a `global_bias` to the global context frames. |
-| `attn.global_phase`    | It is similar to `local_phase`. But it rebases the attention when the denoise timestep is greater than `t`.                                                                  |
+| `attn.local_phase`     | When the denoise timestep is less than `t`, it bias the attention. This adds a `local_bias` to the local context frames and a `global_bias` to the global context frames. |
+| `attn.global_phase`    | It is similar to `local_phase`. But it bias the attention when the denoise timestep is greater than `t`.                                                                  |
 | `attn.token_num_scale` | If the value is `True`, the scale factor will be rescaled by the number of tokens. Default is `False`. More details can be referred to this [paper](TODO).                   |
 #### How to Set Config
 - To avoid the loss of high-frequency information, we recommend setting the sum of `padding` and `attn.topk` to be less than 24 (which is similar to the number of the default frames in the `VideoCrafter2` model).
@@ -92,7 +92,11 @@ python inference.py --config examples/single_gpu.json
 ## Citation
 ```
 @article{
-  TODO
+  tan2023vinfinity,
+  title={Video-Infinity: Distributed Long Video Generation},
+  author={Zhenxiong Tan, Xingyi Yang, Songhua Liu, and Xinchao Wang},
+  journal={arXiv preprint arXiv:2406.16260},
+  year={2023}
 }
 ```
 
