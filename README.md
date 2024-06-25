@@ -79,7 +79,7 @@ python inference.py --config examples/single_gpu.json
 | Parameter              | Description                                                                                                                                                               |
 | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `*.padding`            | The number of local context frames.                                                                                                                                       |
-| `attn.topk`            | The number ofglobal context frames for `Attention` model.                                                                                                                 |
+| `attn.topk`            | The number of global context frames for `Attention` model.                                                                                                                 |
 | `attn.local_phase`     | When the denoise timestep is less than `t`, it bias the attention. This adds a `local_bias` to the local context frames and a `global_bias` to the global context frames. |
 | `attn.global_phase`    | It is similar to `local_phase`. But it bias the attention when the denoise timestep is greater than `t`.                                                                  |
 | `attn.token_num_scale` | If the value is `True`, the scale factor will be rescaled by the number of tokens. Default is `False`. More details can be referred to this [paper](https://arxiv.org/abs/2306.08645).                |
