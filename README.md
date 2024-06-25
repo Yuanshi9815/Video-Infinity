@@ -5,7 +5,8 @@
 
 <img src='./assets/VideoGen-Main.png' width='80%' />
 
-<img src="https://img.shields.io/badge/ariXv-2406.16260-A42C25.svg" alt="arXiv"> <img src="https://img.shields.io/badge/ProjectPage-Video Infinity-376ED2#376ED2.svg" alt="arXiv">
+<a href="https://arxiv.org/abs/2406.16260">
+<img src="https://img.shields.io/badge/ariXv-2406.16260-A42C25.svg" alt="arXiv"></a><a  href="https://video-infinity.tanzhenxiong.com"> <img src="https://img.shields.io/badge/ProjectPage-Video Infinity-376ED2#376ED2.svg" alt="arXiv"></a>
 </div>
 
 
@@ -75,13 +76,13 @@ python inference.py --config examples/single_gpu.json
 | `num_frames` | The number of frames to generate on **each GPU**.                                                    |
 
 #### Video-Infinity Config
-| Parameter              | Description                                                                                                                                                                  |
-| ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `*.padding`            | The number of local context frames.                                                                                                                                          |
-| `attn.topk`            | The number ofglobal context frames for `Attention` model.                                                                                                                    |
+| Parameter              | Description                                                                                                                                                               |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `*.padding`            | The number of local context frames.                                                                                                                                       |
+| `attn.topk`            | The number ofglobal context frames for `Attention` model.                                                                                                                 |
 | `attn.local_phase`     | When the denoise timestep is less than `t`, it bias the attention. This adds a `local_bias` to the local context frames and a `global_bias` to the global context frames. |
 | `attn.global_phase`    | It is similar to `local_phase`. But it bias the attention when the denoise timestep is greater than `t`.                                                                  |
-| `attn.token_num_scale` | If the value is `True`, the scale factor will be rescaled by the number of tokens. Default is `False`. More details can be referred to this [paper](TODO).                   |
+| `attn.token_num_scale` | If the value is `True`, the scale factor will be rescaled by the number of tokens. Default is `False`. More details can be referred to this [paper](TODO).                |
 #### How to Set Config
 - To avoid the loss of high-frequency information, we recommend setting the sum of `padding` and `attn.topk` to be less than 24 (which is similar to the number of the default frames in the `VideoCrafter2` model).
   - If you wish to have a larger `padding` or `attn.topk`, you should set the `attn.token_num_scale` to `True`.
