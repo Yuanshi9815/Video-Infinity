@@ -5,8 +5,8 @@
 
 <img src='./assets/VideoGen-Main.png' width='80%' />
 <br>
-<a href="https://arxiv.org/abs/2406.16260">
-<img src="https://img.shields.io/badge/ariXv-2406.16260-A42C25.svg" alt="arXiv"></a><a  href="https://video-infinity.tanzhenxiong.com"> <img src="https://img.shields.io/badge/ProjectPage-Video Infinity-376ED2#376ED2.svg" alt="arXiv"></a>
+<a href="https://arxiv.org/abs/2406.16260"><img src="https://img.shields.io/badge/ariXv-2406.16260-A42C25.svg" alt="arXiv"></a>
+<a  href="https://video-infinity.tanzhenxiong.com"><img src="https://img.shields.io/badge/ProjectPage-Video Infinity-376ED2#376ED2.svg" alt="arXiv"></a>
 </div>
 
 
