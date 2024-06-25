@@ -16,7 +16,7 @@
 > [Xingyi Yang](https://adamdad.github.io/), 
 > [Songhua Liu](http://121.37.94.87/), 
 > and 
-> [Xinchao Wang]([](https://sites.google.com/site/sitexinchaowang/))
+> [Xinchao Wang](https://sites.google.com/site/sitexinchaowang/)
 > <br>
 > [Learning and Vision Lab](http://lv-nus.org/), National University of Singapore
 > <br>
@@ -93,13 +93,13 @@ python inference.py --config examples/single_gpu.json
 ## Citation
 ```
 @article{
-  tan2023vinfinity,
+  tan2024videoinf,
   title={Video-Infinity: Distributed Long Video Generation},
   author={Zhenxiong Tan, Xingyi Yang, Songhua Liu, and Xinchao Wang},
   journal={arXiv preprint arXiv:2406.16260},
-  year={2023}
+  year={2024}
 }
 ```
 
 ## Acknowledgements
-Our project is based on the [VideoCrafter2](https://ailab-cvc.github.io/videocrafter2) model. We would like to thank the authors for their excellent work.
+Our project is based on the [VideoCrafter2](https://ailab-cvc.github.io/videocrafter2) model. We would like to thank the authors for their excellent work! ❤️
